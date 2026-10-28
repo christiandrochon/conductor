@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@nouhouari/conductor-e2e": ["../src/index.ts"]
+      "@christiandrochon/conductor-e2e": ["../src/index.ts"]
     }
   },
   "include": ["./**/*.ts"],

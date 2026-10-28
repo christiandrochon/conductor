@@ -14,12 +14,12 @@ const REFERENCES: Record<ApiSurface, string> = {
 
 The Cucumber \`World\` subclass that wires all drivers together. Import with:
 \`\`\`typescript
-import { ConductorWorld } from '@nouhouari/conductor-e2e';
+import { ConductorWorld } from '@christiandrochon/conductor-e2e';
 \`\`\`
 
 Activated by tag hooks in \`src/hooks/index.ts\` — loaded via:
 \`\`\`js
-require.resolve('@nouhouari/conductor-e2e/dist/src/hooks/index')
+require.resolve('@christiandrochon/conductor-e2e/dist/src/hooks/index')
 \`\`\`
 
 ### Properties
@@ -223,7 +223,7 @@ Activated by the \`@flutter-desktop\` tag hook.
 ### Finders
 
 \`\`\`typescript
-import type { Finder } from '@nouhouari/conductor-e2e';
+import type { Finder } from '@christiandrochon/conductor-e2e';
 
 const byKey  = (key: string): Finder => ({ type: 'ByValueKey', value: key });
 const byText = (text: string): Finder => ({ type: 'ByText', value: text });
@@ -403,7 +403,7 @@ Before({ tags: '@database' }, async function (this: ConductorWorld) {
 Abstract base class for page objects. Extend this in \`pages/\`.
 
 \`\`\`typescript
-import { BasePage } from '@nouhouari/conductor-e2e';
+import { BasePage } from '@christiandrochon/conductor-e2e';
 import type { Locator } from 'playwright';
 
 export class LoginPage extends BasePage {

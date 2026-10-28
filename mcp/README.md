@@ -13,11 +13,11 @@ With 18 tools across discovery, scaffolding, validation, and live JavaFX desktop
 
 ## Install
 
-`conductor-mcp` is published to the public **npm registry** as `@nouhouari/conductor-mcp`
+`conductor-mcp` is published to the public **npm registry** as `@christiandrochon/conductor-mcp`
 by the `release-mcp.yml` workflow on every `mcp-v*` tag — no `.npmrc` or token needed:
 
 ```bash
-npm install @nouhouari/conductor-mcp
+npm install @christiandrochon/conductor-mcp
 ```
 
 Each release is also published to GitHub Packages and attaches a `.tgz` tarball to the
@@ -33,15 +33,15 @@ npm install https://github.com/nouhouari/conductor/releases/download/mcp-v0.2.3/
 | For | Requirement |
 |---|---|
 | The MCP server itself | Node ≥ 18 |
-| TypeScript target projects | `@nouhouari/conductor-e2e` (`init_project` pins it for new projects) |
+| TypeScript target projects | `@christiandrochon/conductor-e2e` (`init_project` pins it for new projects) |
 | Java target projects | **JDK 17+** (`maven.compiler.release` is `17`) and Maven 3.9+ on `PATH` |
 
 ## Wire Up
 
 All snippets below run the server through `npx` — no install or token needed. A few rules apply to every client:
 
-- **Use the scoped name** `@nouhouari/conductor-mcp`. The unscoped [`conductor-mcp`](https://www.npmjs.com/package/conductor-mcp) is the pre-rename package, frozen at 0.1.1.
-- **`@latest`** makes `npx` pick up new releases; without a version, `npx` may keep reusing an older cached copy. Pin an exact version instead (e.g. `@nouhouari/conductor-mcp@0.2.3`) if your team wants identical tools for everyone.
+- **Use the scoped name** `@christiandrochon/conductor-mcp`. The unscoped [`conductor-mcp`](https://www.npmjs.com/package/conductor-mcp) is the pre-rename package, frozen at 0.1.1.
+- **`@latest`** makes `npx` pick up new releases; without a version, `npx` may keep reusing an older cached copy. Pin an exact version instead (e.g. `@christiandrochon/conductor-mcp@0.2.3`) if your team wants identical tools for everyone.
 - **Start the client from inside the Conductor project** — the server resolves the target project (TypeScript `cucumber.js` or Java `pom.xml`) from the working directory. Restart it after `init_project` scaffolds a new project.
 - If your `~/.npmrc` maps `@nouhouari:registry` to `https://npm.pkg.github.com` (the pre-0.2.3 setup), remove that line so `npx` resolves from npmjs.org.
 
@@ -55,7 +55,7 @@ Add to `~/.copilot/mcp-config.json`:
     "conductor": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@nouhouari/conductor-mcp@latest"],
+      "args": ["-y", "@christiandrochon/conductor-mcp@latest"],
       "tools": ["*"]
     }
   }
@@ -65,7 +65,7 @@ Add to `~/.copilot/mcp-config.json`:
 Restart the CLI (or run `/mcp` to reload). Copilot requires the explicit `"type": "stdio"`
 and a `"tools"` allow-list — `["*"]` enables all 18 tools.
 
-If you installed the package globally (`npm install -g @nouhouari/conductor-mcp`), you can
+If you installed the package globally (`npm install -g @christiandrochon/conductor-mcp`), you can
 point straight at the shipped `conductor-mcp` bin instead of going through `npx`:
 
 ```json
@@ -93,7 +93,7 @@ Add to `.mcp.json` in your project root:
   "mcpServers": {
     "conductor": {
       "command": "npx",
-      "args": ["-y", "@nouhouari/conductor-mcp@latest"]
+      "args": ["-y", "@christiandrochon/conductor-mcp@latest"]
     }
   }
 }
@@ -101,9 +101,9 @@ Add to `.mcp.json` in your project root:
 
 Restart Claude Code. The **Conductor MCP** tools will be available to any AI in that workspace.
 
-> `npx` resolves `@nouhouari/conductor-mcp` from the public npm registry. If the package is
+> `npx` resolves `@christiandrochon/conductor-mcp` from the public npm registry. If the package is
 > installed locally you can instead use
-> `"command": "node", "args": ["./node_modules/@nouhouari/conductor-mcp/dist/cli.js"]`.
+> `"command": "node", "args": ["./node_modules/@christiandrochon/conductor-mcp/dist/cli.js"]`.
 
 ### Cursor
 
@@ -120,7 +120,7 @@ Add to `~/.continue/config.json`:
       {
         "name": "conductor",
         "command": "npx",
-        "args": ["-y", "@nouhouari/conductor-mcp@latest"]
+        "args": ["-y", "@christiandrochon/conductor-mcp@latest"]
       }
     ]
   }
@@ -492,7 +492,7 @@ Example:
 
 **Notes:**
 - Does **not** run `npm install` (or `mvn`) — that's your step.
-- The generated `package.json` pins `@nouhouari/conductor-e2e`, which installs from the public npm registry.
+- The generated `package.json` pins `@christiandrochon/conductor-e2e`, which installs from the public npm registry.
 - With `language: 'java'` it writes `pom.xml` + JUnit Platform suites instead; run `mvn test-compile` to verify.
 - The `cucumber.js` profile and directory structure match the [User Guide](../docs/USER_GUIDE.md) — use this to bootstrap a fresh project in seconds.
 
@@ -629,7 +629,7 @@ Example:
 ## Requirements
 
 - Node ≥ 18 (the MCP server itself)
-- For TypeScript projects: `@nouhouari/conductor-e2e` installed in the target project (required for existing-project discovery tools; `init_project` pins it in the generated `package.json`)
+- For TypeScript projects: `@christiandrochon/conductor-e2e` installed in the target project (required for existing-project discovery tools; `init_project` pins it in the generated `package.json`)
 - For Java projects: **JDK 17+** and Maven on `PATH` (`dry_run_scenario` runs `./mvnw` or `mvn`)
 - For mobile tests: Maestro CLI installed separately (see [User Guide prerequisites](../docs/USER_GUIDE.md#1-prerequisites))
 - For web tests: Playwright browsers installed (the generated `cucumber.js` includes the `npx playwright install` step)
@@ -643,10 +643,10 @@ Example:
 
 ## Resources
 
-- [@nouhouari/conductor-e2e on npm](https://www.npmjs.com/package/@nouhouari/conductor-e2e)
-- [@nouhouari/conductor-mcp on npm](https://www.npmjs.com/package/@nouhouari/conductor-mcp)
-- [@nouhouari/conductor-e2e on GitHub Packages](https://github.com/nouhouari/conductor/pkgs/npm/conductor-e2e)
-- [@nouhouari/conductor-mcp on GitHub Packages](https://github.com/nouhouari/conductor/pkgs/npm/conductor-mcp)
+- [@christiandrochon/conductor-e2e on npm](https://www.npmjs.com/package/@christiandrochon/conductor-e2e)
+- [@christiandrochon/conductor-mcp on npm](https://www.npmjs.com/package/@christiandrochon/conductor-mcp)
+- [@christiandrochon/conductor-e2e on GitHub Packages](https://github.com/nouhouari/conductor/pkgs/npm/conductor-e2e)
+- [@christiandrochon/conductor-mcp on GitHub Packages](https://github.com/nouhouari/conductor/pkgs/npm/conductor-mcp)
 - [Releases](https://github.com/nouhouari/conductor/releases) — downloadable `.tgz` tarballs
 - [User Guide](../docs/USER_GUIDE.md) — full walkthrough of writing and running tests
 - [Repository](https://github.com/nouhouari/conductor)

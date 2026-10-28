@@ -104,7 +104,7 @@ export function renderPageObjectTemplate(
 
   const classBody = sections.join('\n\n');
 
-  return `import { BasePage } from '@nouhouari/conductor-e2e';
+  return `import { BasePage } from '@christiandrochon/conductor-e2e';
 import type { Locator } from 'playwright';
 
 export class ${className} extends BasePage {

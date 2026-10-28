@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Given, When, Then } from '@cucumber/cucumber';
-import { ConductorWorld } from '@nouhouari/conductor-e2e';
-import type { Finder, WaitCondition } from '@nouhouari/conductor-e2e';
+import { ConductorWorld } from '@christiandrochon/conductor-e2e';
+import type { Finder, WaitCondition } from '@christiandrochon/conductor-e2e';
 
 const TIMEOUT = { timeout: 60000 };
 

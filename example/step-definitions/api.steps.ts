@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { ConductorWorld } from '@nouhouari/conductor-e2e';
+import { ConductorWorld } from '@christiandrochon/conductor-e2e';
 
 interface TodoResponse {
   id: number;

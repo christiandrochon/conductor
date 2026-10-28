@@ -1,5 +1,5 @@
 import { Before } from '@cucumber/cucumber';
-import { ConductorWorld } from '@nouhouari/conductor-e2e';
+import { ConductorWorld } from '@christiandrochon/conductor-e2e';
 
 Before(async function (this: ConductorWorld) {
   if (!this.api.isInitialized) await this.api.init();
