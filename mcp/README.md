@@ -13,19 +13,13 @@ With 18 tools across discovery, scaffolding, validation, and live JavaFX desktop
 
 ## Install
 
-`conductor-mcp` is published to the public **npm registry** as `@christiandrochon/conductor-mcp`
-by the `release-mcp.yml` workflow on every `mcp-v*` tag — no `.npmrc` or token needed:
+`conductor-mcp` (`@christiandrochon/conductor-mcp`) is no longer published to npmjs.org. The
+`release-mcp.yml` workflow attaches a `.tgz` tarball to the [GitHub Release](https://github.com/christiandrochon/conductor/releases)
+of every `mcp-v*` tag (and also publishes to GitHub Packages). Install straight from the tarball
+(replace `0.2.4` with the version you want, in both the tag and the file name):
 
 ```bash
-npm install @christiandrochon/conductor-mcp
-```
-
-Each release is also published to GitHub Packages and attaches a `.tgz` tarball to the
-corresponding [GitHub Release](https://github.com/nouhouari/conductor/releases), so you can
-install straight from a tarball:
-
-```bash
-npm install https://github.com/nouhouari/conductor/releases/download/mcp-v0.2.3/nouhouari-conductor-mcp-0.2.3.tgz
+npm install https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz
 ```
 
 ### Prerequisites
@@ -38,12 +32,12 @@ npm install https://github.com/nouhouari/conductor/releases/download/mcp-v0.2.3/
 
 ## Wire Up
 
-All snippets below run the server through `npx` — no install or token needed. A few rules apply to every client:
+All snippets below run the server through `npx` from the GitHub Release tarball — no install or token needed. A few rules apply to every client:
 
 - **Use the scoped name** `@christiandrochon/conductor-mcp`. The unscoped [`conductor-mcp`](https://www.npmjs.com/package/conductor-mcp) is the pre-rename package, frozen at 0.1.1.
-- **`@latest`** makes `npx` pick up new releases; without a version, `npx` may keep reusing an older cached copy. Pin an exact version instead (e.g. `@christiandrochon/conductor-mcp@0.2.3`) if your team wants identical tools for everyone.
+- **The URL pins an exact version** (`mcp-v0.2.4` in the tag and the file name): change both to upgrade, so your team gets identical tools. There is no `@latest` any more.
 - **Start the client from inside the Conductor project** — the server resolves the target project (TypeScript `cucumber.js` or Java `pom.xml`) from the working directory. Restart it after `init_project` scaffolds a new project.
-- If your `~/.npmrc` maps `@nouhouari:registry` to `https://npm.pkg.github.com` (the pre-0.2.3 setup), remove that line so `npx` resolves from npmjs.org.
+- If your `~/.npmrc` maps `@nouhouari:registry` to `https://npm.pkg.github.com` (the pre-0.2.3 setup), remove that line so it does not interfere with the tarball install.
 
 ### GitHub Copilot CLI
 
@@ -55,7 +49,7 @@ Add to `~/.copilot/mcp-config.json`:
     "conductor": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@christiandrochon/conductor-mcp@latest"],
+      "args": ["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"],
       "tools": ["*"]
     }
   }
@@ -65,7 +59,7 @@ Add to `~/.copilot/mcp-config.json`:
 Restart the CLI (or run `/mcp` to reload). Copilot requires the explicit `"type": "stdio"`
 and a `"tools"` allow-list — `["*"]` enables all 18 tools.
 
-If you installed the package globally (`npm install -g @christiandrochon/conductor-mcp`), you can
+If you installed the package globally (`npm install -g https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz`), you can
 point straight at the shipped `conductor-mcp` bin instead of going through `npx`:
 
 ```json
@@ -93,7 +87,7 @@ Add to `.mcp.json` in your project root:
   "mcpServers": {
     "conductor": {
       "command": "npx",
-      "args": ["-y", "@christiandrochon/conductor-mcp@latest"]
+      "args": ["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"]
     }
   }
 }
@@ -101,7 +95,7 @@ Add to `.mcp.json` in your project root:
 
 Restart Claude Code. The **Conductor MCP** tools will be available to any AI in that workspace.
 
-> `npx` resolves `@christiandrochon/conductor-mcp` from the public npm registry. If the package is
+> `npx` fetches `@christiandrochon/conductor-mcp` from the GitHub Release tarball. If the package is
 > installed locally you can instead use
 > `"command": "node", "args": ["./node_modules/@christiandrochon/conductor-mcp/dist/cli.js"]`.
 
@@ -120,7 +114,7 @@ Add to `~/.continue/config.json`:
       {
         "name": "conductor",
         "command": "npx",
-        "args": ["-y", "@christiandrochon/conductor-mcp@latest"]
+        "args": ["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"]
       }
     ]
   }
@@ -643,8 +637,6 @@ Example:
 
 ## Resources
 
-- [@christiandrochon/conductor-e2e on npm](https://www.npmjs.com/package/@christiandrochon/conductor-e2e)
-- [@christiandrochon/conductor-mcp on npm](https://www.npmjs.com/package/@christiandrochon/conductor-mcp)
 - [@christiandrochon/conductor-e2e on GitHub Packages](https://github.com/nouhouari/conductor/pkgs/npm/conductor-e2e)
 - [@christiandrochon/conductor-mcp on GitHub Packages](https://github.com/nouhouari/conductor/pkgs/npm/conductor-mcp)
 - [Releases](https://github.com/nouhouari/conductor/releases) — downloadable `.tgz` tarballs

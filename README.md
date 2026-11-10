@@ -33,12 +33,12 @@ Scenario: Todo created on web appears on the Flutter mobile app
 
 ## Quick Start
 
-Conductor is published to the public registries — no `.npmrc`, `settings.xml` or tokens needed.
+The TypeScript packages are distributed as tarballs attached to [GitHub Releases](https://github.com/christiandrochon/conductor/releases) (they are no longer published to npmjs.org); Java is on Maven Central. No `.npmrc`, `settings.xml` or tokens needed.
 
-**TypeScript** — [`@christiandrochon/conductor-e2e`](https://www.npmjs.com/package/@christiandrochon/conductor-e2e) on npmjs.org:
+**TypeScript** — `@christiandrochon/conductor-e2e`, installed from the tarball of a GitHub Release (replace `0.1.10` with the version you want, in both the tag and the file name):
 
 ```bash
-npm install @christiandrochon/conductor-e2e
+npm install https://github.com/christiandrochon/conductor/releases/download/v0.1.10/christiandrochon-conductor-e2e-0.1.10.tgz
 ```
 
 **Java** — [`io.github.nouhouari.conductor:conductor-core`](https://central.sonatype.com/artifact/io.github.nouhouari.conductor/conductor-core) on Maven Central (see [java/README.md](java/README.md)):
@@ -52,7 +52,7 @@ npm install @christiandrochon/conductor-e2e
 </dependency>
 ```
 
-**AI-assisted authoring** — the [`@christiandrochon/conductor-mcp`](https://www.npmjs.com/package/@christiandrochon/conductor-mcp) MCP server runs straight from npmjs.org with `npx -y @christiandrochon/conductor-mcp` (see [mcp/README.md](mcp/README.md)).
+**AI-assisted authoring** — the `@christiandrochon/conductor-mcp` MCP server runs straight from its GitHub Release tarball with `npx -y https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz` (see [mcp/README.md](mcp/README.md)).
 
 > The unscoped npm packages [`conductor-e2e`](https://www.npmjs.com/package/conductor-e2e) (last: 0.1.2) and
 > [`conductor-mcp`](https://www.npmjs.com/package/conductor-mcp) (last: 0.1.1) are the pre-rename names and are no
@@ -67,7 +67,7 @@ For Claude Code or Cursor, add `.mcp.json` to your project root:
   "mcpServers": {
     "conductor": {
       "command": "npx",
-      "args": ["-y", "@christiandrochon/conductor-mcp@latest"]
+      "args": ["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"]
     }
   }
 }
@@ -167,7 +167,7 @@ No code APIs changed; only package names, the Java groupId and where packages ar
 
 **TypeScript (`@christiandrochon/conductor-e2e`)**
 
-- *Coming from GitHub Packages:* delete `@nouhouari:registry=https://npm.pkg.github.com` (and its `_authToken` line) from `.npmrc`, then `npm install @christiandrochon/conductor-e2e@latest`.
+- *Coming from GitHub Packages:* delete `@nouhouari:registry=https://npm.pkg.github.com` (and its `_authToken` line) from `.npmrc`, then install from the GitHub Release tarball (`npm install https://github.com/christiandrochon/conductor/releases/download/v0.1.10/christiandrochon-conductor-e2e-0.1.10.tgz`).
 - *Coming from the unscoped `conductor-e2e` (≤ 0.1.2):* `npm uninstall conductor-e2e && npm install @christiandrochon/conductor-e2e`, change imports to `from '@christiandrochon/conductor-e2e'`, and point the hooks in `cucumber.js` at `path.join(path.dirname(require.resolve('@christiandrochon/conductor-e2e')), 'hooks', 'index.js')` (the package `exports` only exposes the main entry, so a deep `.../dist/src/hooks/index` subpath fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`).
 
 **Java (`conductor-core`)**
@@ -178,7 +178,7 @@ No code APIs changed; only package names, the Java groupId and where packages ar
 
 **MCP server (`@christiandrochon/conductor-mcp`)**
 
-- Use `["-y", "@christiandrochon/conductor-mcp@latest"]` in your client config (not the unscoped `conductor-mcp`), remove any GitHub Packages `.npmrc` mapping, and restart the client.
+- Use `["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"]` in your client config (not the unscoped `conductor-mcp`), remove any GitHub Packages `.npmrc` mapping, and restart the client.
 - Upgrading the server only changes newly scaffolded projects; update existing ones with the TypeScript / Java steps above.
 
 ## Documentation
