@@ -90,7 +90,14 @@ const path = require('path');
 
 // Loading framework hooks by direct path ensures we share the same
 // @cucumber/cucumber instance as the runner — required for World hooks.
-const conductorHooks = require.resolve('@christiandrochon/conductor-e2e/dist/src/hooks/index');
+// The package `exports` only exposes the main entry (a deep subpath throws
+// ERR_PACKAGE_PATH_NOT_EXPORTED), so derive the hooks file from the main entry,
+// which resolves to dist/src/index.js.
+const conductorHooks = path.join(
+  path.dirname(require.resolve('@christiandrochon/conductor-e2e')),
+  'hooks',
+  'index.js'
+);
 
 module.exports = {
   default: {
@@ -124,7 +131,7 @@ my-e2e/
 ├── package.json
 ├── tsconfig.json
 ├── cucumber.js                Cucumber profiles + framework hooks wiring
-├── conductor.config.ts        Your env config (optional)
+├── .env                       Env-var overrides, loaded by dotenv (optional)
 ├── features/                  Gherkin .feature files, grouped by platform
 │   ├── web/
 │   ├── api/
@@ -150,40 +157,41 @@ The `example/` directory in the conductor repo is a working reference of this ex
 
 ## 4. Configure environments
 
-Conductor ships a default config (`http://localhost:3000`, Playwright Chromium headless). To customize, create `conductor.config.ts` and override:
+Conductor ships a default config (`http://localhost:3000`, Playwright Chromium headless). The package does **not** load a `conductor.config.ts` (or any config file) from your project. The configuration is resolved once, when `@christiandrochon/conductor-e2e` is imported, in this order:
+
+1. The built-in `default` config.
+2. If `TEST_ENV` is set, the matching built-in environment is deep-merged over it. Only the environments bundled in the package are available: `dev` and `staging`. An unknown `TEST_ENV` value silently falls back to `default`; you cannot add your own environment file from your project.
+3. The environment variables listed below override individual values. A `.env` file in the working directory is loaded automatically (via `dotenv`), so you can keep them there.
+
+For example, a `.env` at the root of your e2e project:
+
+```bash
+WEB_BASE_URL=http://localhost:8080
+API_BASE_URL=http://localhost:8080/api
+HEADLESS=false
+BROWSER=chromium
+```
+
+The resolved values are exported as `config` (and `loadConfig()`) from the package and typed by `EnvironmentConfig`:
 
 ```typescript
-import type { EnvironmentConfig } from '@christiandrochon/conductor-e2e';
+import { config } from '@christiandrochon/conductor-e2e';
 
-export const config: Partial<EnvironmentConfig> = {
-  web: {
-    baseUrl: 'http://localhost:8080',
-    headless: false,
-    browserName: 'chromium',
-    viewport: { width: 1440, height: 900 }
-  },
-  api: {
-    baseUrl: 'http://localhost:8080/api',
-    defaultCredentials: { username: 'admin', password: 'admin' },
-    timeoutMs: 30000
-  },
-  mobile: {
-    flowsDir: 'flows/mobile',
-    timeoutMs: 120000
-  }
-};
+console.log(config.web.baseUrl);
 ```
 
 **Environment variable overrides** (no rebuild needed):
 
 | Var | Effect |
 |---|---|
-| `TEST_ENV` | Picks `config/environments/<name>.ts` |
+| `TEST_ENV` | Picks a built-in environment bundled in the package (`dev`, `staging`; default: `default`) |
 | `WEB_BASE_URL` | Overrides web base URL |
 | `API_BASE_URL` | Overrides API base URL |
 | `HEADLESS` | `true` / `false` |
 | `BROWSER` | `chromium` / `firefox` / `webkit` |
 | `MAESTRO_DEVICE` | Target device/emulator ID |
+| `FLUTTER_DESKTOP_APP_PATH` | Path to the built Flutter desktop executable |
+| `FLUTTER_DESKTOP_VM_PORT` | Fixed Dart VM service port |
 | `DEBUG_MAESTRO` | Set to `0` to silence live Maestro output |
 
 ---
@@ -574,24 +582,14 @@ The built app lands at `build/macos/Build/Products/Profile/<AppName>.app`.
 
 ### Configure `FlutterDesktopConfig`
 
-In your `conductor.config.ts` (or environment config):
+The package reads two Flutter-related environment variables (see section 4; `.env` works too):
 
-```typescript
-import type { EnvironmentConfig } from '@christiandrochon/conductor-e2e';
-import * as path from 'path';
-
-export const config: Partial<EnvironmentConfig> = {
-  flutterDesktop: {
-    appPath: path.resolve(
-      __dirname,
-      '../apps/mobile/build/macos/Build/Products/Profile/todoapp.app/Contents/MacOS/todoapp'
-    ),
-    dartVmServicePort: 8888,
-    defaultTimeoutMs: 15000,
-    screenshotDir: 'reports/screenshots'
-  }
-};
+```bash
+FLUTTER_DESKTOP_APP_PATH=/abs/path/to/todoapp.app/Contents/MacOS/todoapp
+FLUTTER_DESKTOP_VM_PORT=8888
 ```
+
+Both only apply to the built-in `flutterDesktop` config block, which is present by default. The default `appPath` points at the conductor repo's own example app, so set `FLUTTER_DESKTOP_APP_PATH` in your project. Other `FlutterDesktopConfig` fields (`defaultTimeoutMs`, `launchTimeoutMs`, `extraArgs`, `env`, `screenshotDir`) have no environment variable and keep their defaults when you consume the published package.
 
 ### Step definitions
 
