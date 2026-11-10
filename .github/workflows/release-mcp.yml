@@ -94,9 +94,9 @@ jobs:
           # the scope here replaces that line so publishes really hit npmjs.org.
           scope: '@christiandrochon'
 
-      - name: Upgrade npm (Trusted Publishing requires >= 11.5.1)
+      - name: Upgrade npm (Trusted Publishing requires >= 11.5.1, pinned)
         run: |
-          npm install -g npm@^11.5.1
+          npm install -g npm@11.21.2 --ignore-scripts
           npm --version
 
       - name: Publish to npmjs.org
