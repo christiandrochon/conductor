@@ -10,6 +10,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 - **`release-java.yml` no longer fails after a successful Central publish** — bumped `central-publishing-maven-plugin` 0.7.0 → 0.11.0. 0.7.0 could not parse the `warnings` field the Central Portal now returns while polling deployment status, so the job failed even though `conductor-java 0.2.0` was published.
 
+## [conductor-e2e 0.1.10] — 2026-11-10
+
+### Changed
+
+- **npm scope renamed to `@christiandrochon`** — the package is now published as `@christiandrochon/conductor-e2e` (was `@nouhouari/conductor-e2e`). `README.md`, `docs/USER_GUIDE.md` and the example project import and depend on the new name.
+- **npmjs.org publish uses Trusted Publishing (OIDC)** — `release.yml` now publishes to npmjs.org with a short-lived credential minted from the workflow's OIDC identity (`id-token: write`, Node 24, npm pinned to 11.21.2, install scripts disabled), with provenance attestations. The `NPM_TOKEN` secret and its check are gone. `package.json` `repository.url` now points at `christiandrochon/conductor`, as Trusted Publishing and provenance require.
+- **Docs: hooks path and configuration** — `README.md` and `docs/USER_GUIDE.md` align the hooks `require.resolve` path and the configuration description with the published package.
+
+### Fixed
+
+- **Release workflow follows the new scope** — `release.yml` now sets `scope: '@christiandrochon'` on the npmjs.org `setup-node` step (so it does not keep the GitHub Packages registry line written by the previous step) and attaches `christiandrochon-conductor-e2e-*.tgz` to the GitHub Release.
+
+## [conductor-mcp 0.2.4] — 2026-11-10
+
+### Changed
+
+- **npm scope renamed to `@christiandrochon`** — the package is now published as `@christiandrochon/conductor-mcp` (was `@nouhouari/conductor-mcp`) and its peer dependency is `@christiandrochon/conductor-e2e`. `init_project` pins `@christiandrochon/conductor-e2e` `^0.1.8` and generates `cucumber.js`, page objects, step definitions and samples that import from the new scope; `mcp/README.md` and the API reference use the new name.
+- **npmjs.org publish uses Trusted Publishing (OIDC)** — `release-mcp.yml` now publishes to npmjs.org with a short-lived credential minted from the workflow's OIDC identity (`id-token: write`, Node 24, npm pinned to 11.21.2, install scripts disabled), with provenance attestations. The `NPM_TOKEN` secret and its check are gone. `mcp/package.json` `repository.url` now points at `christiandrochon/conductor`, as Trusted Publishing and provenance require.
+
+### Fixed
+
+- **Release workflow follows the new scope** — `release-mcp.yml` now sets `scope: '@christiandrochon'` on the npmjs.org `setup-node` step (so it does not keep the GitHub Packages registry line written by the previous step) and attaches `christiandrochon-conductor-mcp-*.tgz` to the GitHub Release.
+
 ## [conductor-e2e 0.1.9] — 2026-10-02
 
 Docs-only release so the npmjs.com package page shows the current install instructions.
