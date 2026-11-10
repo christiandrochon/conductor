@@ -55,7 +55,7 @@ jobs:
         with:
           generate_release_notes: true
           files: |
-            nouhouari-conductor-mcp-*.tgz
+            christiandrochon-conductor-mcp-*.tgz
 
       - name: Publish to GitHub Packages
         # Run npm publish from inside mcp/ so npm picks up mcp/package.json
@@ -74,21 +74,21 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Second registry: public npmjs.org. setup-node rewrites .npmrc so the
-      # @nouhouari scope and NODE_AUTH_TOKEN below point at registry.npmjs.org. The explicit
+      # @christiandrochon scope and NODE_AUTH_TOKEN below point at registry.npmjs.org. The explicit
       # --registry flag overrides the publishConfig in mcp/package.json, which
       # points at GitHub Packages. NPM_TOKEN must be a repository secret holding
       # an npmjs.org automation/granular token with publish rights on the
-      # @nouhouari scope.
+      # @christiandrochon scope.
       - name: Set up Node.js (npmjs.org)
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
           # Must be explicit: the GitHub Packages setup-node step above wrote
-          # `@nouhouari:registry=https://npm.pkg.github.com/` (scope defaults to
+          # `@christiandrochon:registry=https://npm.pkg.github.com/` (scope defaults to
           # the repo owner), and a scoped registry beats `--registry`. Setting
           # the scope here replaces that line so publishes really hit npmjs.org.
-          scope: '@nouhouari'
+          scope: '@christiandrochon'
 
       - name: Publish to npmjs.org
         working-directory: mcp

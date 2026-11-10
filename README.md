@@ -168,7 +168,7 @@ No code APIs changed; only package names, the Java groupId and where packages ar
 **TypeScript (`@christiandrochon/conductor-e2e`)**
 
 - *Coming from GitHub Packages:* delete `@nouhouari:registry=https://npm.pkg.github.com` (and its `_authToken` line) from `.npmrc`, then `npm install @christiandrochon/conductor-e2e@latest`.
-- *Coming from the unscoped `conductor-e2e` (≤ 0.1.2):* `npm uninstall conductor-e2e && npm install @christiandrochon/conductor-e2e`, change imports to `from '@christiandrochon/conductor-e2e'`, and point the hooks in `cucumber.js` at `require.resolve('@christiandrochon/conductor-e2e/dist/src/hooks/index')`.
+- *Coming from the unscoped `conductor-e2e` (≤ 0.1.2):* `npm uninstall conductor-e2e && npm install @christiandrochon/conductor-e2e`, change imports to `from '@christiandrochon/conductor-e2e'`, and point the hooks in `cucumber.js` at `path.join(path.dirname(require.resolve('@christiandrochon/conductor-e2e')), 'hooks', 'index.js')` (the package `exports` only exposes the main entry, so a deep `.../dist/src/hooks/index` subpath fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`).
 
 **Java (`conductor-core`)**
 
