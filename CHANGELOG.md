@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+### Changed
+
+- **Distribution moves to GitHub Releases; npmjs.org publication removed** — `release.yml` and `release-mcp.yml` no longer publish to npmjs.org (the Trusted Publishing step failed with `E403 OIDC permission denied`); the `id-token: write` permission, the second `setup-node` and the npm upgrade step are gone. A `v*` or `mcp-v*` tag now builds, creates a GitHub Release with the `.tgz` tarball attached, and publishes to GitHub Packages. `README.md`, `docs/USER_GUIDE.md` and `mcp/README.md` install from the release tarball instead of npmjs.org.
+
 ### Fixed
 
 - **`release-java.yml` no longer fails after a successful Central publish** — bumped `central-publishing-maven-plugin` 0.7.0 → 0.11.0. 0.7.0 could not parse the `warnings` field the Central Portal now returns while polling deployment status, so the job failed even though `conductor-java 0.2.0` was published.
