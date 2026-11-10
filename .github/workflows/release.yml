@@ -7,11 +7,12 @@ on:
 
 jobs:
   release:
-    name: Build, GitHub Release, GitHub Packages (conductor-e2e)
+    name: Build, GitHub Release, GitHub Packages & npm publish (conductor-e2e)
     runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
+      id-token: write   # npm Trusted Publishing (OIDC) + provenance
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,3 +60,38 @@ jobs:
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Second registry: public npmjs.org, via npm Trusted Publishing (OIDC): no npm token.
+      # npm publishes with a short-lived credential minted from this workflow's OIDC identity
+      # (permission `id-token: write` above); provenance is generated automatically.
+      # Prerequisites (https://docs.npmjs.com/trusted-publishers): npm CLI >= 11.5.1 and
+      # Node >= 22.14.0, hence Node 24 and a npm upgrade below. A trusted publisher must be
+      # configured on npmjs.com for the package (owner christiandrochon, repo conductor,
+      # workflow file release.yml), and package.json `repository.url` must match the GitHub repository.
+      # The explicit --registry flag overrides the publishConfig in package.json, which
+      # points at GitHub Packages.
+      - name: Set up Node.js (npmjs.org)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          # Must be explicit: the GitHub Packages setup-node step above wrote
+          # `@christiandrochon:registry=https://npm.pkg.github.com/` (scope defaults to
+          # the repo owner), and a scoped registry beats `--registry`. Setting
+          # the scope here replaces that line so publishes really hit npmjs.org.
+          scope: '@christiandrochon'
+
+      - name: Upgrade npm (Trusted Publishing requires >= 11.5.1, pinned)
+        run: |
+          npm install -g npm@11.21.2 --ignore-scripts
+          npm --version
+
+      - name: Publish to npmjs.org
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version --registry https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "$NAME@$VERSION already on npmjs.org, skipping"
+          else
+            npm publish --registry https://registry.npmjs.org --access public
+          fi

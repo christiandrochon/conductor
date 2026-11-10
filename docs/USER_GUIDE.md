@@ -48,14 +48,13 @@ Conductor itself only requires Node ≥ 18. The other tools are needed only if y
 ```bash
 mkdir my-e2e && cd my-e2e
 npm init -y
-npm install https://github.com/christiandrochon/conductor/releases/download/v0.1.10/christiandrochon-conductor-e2e-0.1.10.tgz @cucumber/cucumber ts-node tsconfig-paths typescript @types/node
+npm install @christiandrochon/conductor-e2e @cucumber/cucumber ts-node tsconfig-paths typescript @types/node
 npm install --save-dev allure-cucumberjs allure-commandline
 npx playwright install chromium
 ```
 
-`@christiandrochon/conductor-e2e` is no longer published to npmjs.org: it installs from the tarball attached to
-the matching [GitHub Release](https://github.com/christiandrochon/conductor/releases) (replace `0.1.10` with the
-version you want, in both the tag and the file name).
+`@christiandrochon/conductor-e2e` installs from the public npm registry
+([npmjs.com/package/@christiandrochon/conductor-e2e](https://www.npmjs.com/package/@christiandrochon/conductor-e2e)).
 If an older `.npmrc` maps `@nouhouari:registry` to `https://npm.pkg.github.com`, remove that line —
 GitHub Packages still mirrors releases but requires a `read:packages` token.
 
@@ -239,7 +238,7 @@ If you use GitHub Copilot CLI, Claude Code, Cursor, or Continue, **conductor-mcp
     "conductor": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"],
+      "args": ["-y", "@christiandrochon/conductor-mcp@latest"],
       "tools": ["*"]
     }
   }
@@ -253,14 +252,13 @@ If you use GitHub Copilot CLI, Claude Code, Cursor, or Continue, **conductor-mcp
   "mcpServers": {
     "conductor": {
       "command": "npx",
-      "args": ["-y", "https://github.com/christiandrochon/conductor/releases/download/mcp-v0.2.4/christiandrochon-conductor-mcp-0.2.4.tgz"]
+      "args": ["-y", "@christiandrochon/conductor-mcp@latest"]
     }
   }
 }
 ```
 
-The package is no longer published to npmjs.org: `npx` fetches the tarball of the GitHub Release
-directly (replace `0.2.4` with the version you want, in both the tag and the file name), with no `.npmrc` or
+The package is published to the public npm registry, so `npx` fetches it with no `.npmrc` or
 token. See the [conductor-mcp README](../mcp/README.md) for the full install and wire-up matrix.
 
 Restart your editor (or the CLI). The Conductor MCP tools are now available in the AI chat.
